@@ -87,20 +87,6 @@ export default function Dashboard() {
                     </div>
                     <div className="p-3 bg-blue-50 rounded-full text-primary">👥</div>
                 </div>
-                <div className="card border-l-4 border-accent-green flex items-center justify-between">
-                     <div>
-                        <div className="text-gray-500 text-sm font-medium uppercase tracking-wider">Janji Temu</div>
-                        <div className="text-3xl font-bold text-gray-800 mt-1">{stats.total_appointments || 0}</div>
-                    </div>
-                    <div className="p-3 bg-green-50 rounded-full text-accent-green">📅</div>
-                </div>
-                <div className="card border-l-4 border-accent-yellow flex items-center justify-between">
-                     <div>
-                        <div className="text-gray-500 text-sm font-medium uppercase tracking-wider">Hari Ini</div>
-                        <div className="text-3xl font-bold text-gray-800 mt-1">{stats.appointments_today || 0}</div>
-                    </div>
-                    <div className="p-3 bg-yellow-50 rounded-full text-accent-yellow">⏰</div>
-                </div>
                 <div className="card border-l-4 border-secondary flex items-center justify-between">
                      <div>
                         <div className="text-gray-500 text-sm font-medium uppercase tracking-wider">Feedback</div>
@@ -166,51 +152,13 @@ export default function Dashboard() {
       {/* ---------------- CONSULTANT DASHBOARD ---------------- */}
       {user.role_id === 2 && consultantSummary && (
           <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="card bg-gradient-to-br from-secondary-light to-white border-none shadow-md">
-                  <div className="flex justify-between items-start">
-                    <div>
-                        <h3 className="text-lg font-bold text-secondary-dark mb-1">Jadwal Saya</h3>
-                        <p className="text-gray-600 text-sm mb-4">Sesi konseling yang tersedia</p>
-                    </div>
-                    <div className="p-3 bg-white rounded-xl text-2xl shadow-sm">🗓️</div>
-                  </div>
-                  <p className="text-5xl font-black text-secondary-dark my-2">{consultantSummary.my_schedules_count}</p>
-                  <Link to="/schedules" className="inline-flex items-center text-secondary-dark font-semibold hover:underline mt-2 text-sm">
-                      Kelola Jadwal <span className="ml-1">→</span>
-                  </Link>
-              </div>
-               <div className="card bg-gradient-to-br from-primary-light to-white border-none shadow-md">
-                  <div className="flex justify-between items-start">
-                    <div>
-                        <h3 className="text-lg font-bold text-primary-dark mb-1">Janji Temu Mendatang</h3>
-                        <p className="text-gray-600 text-sm mb-4">Mahasiswa yang akan konseling</p>
-                    </div>
-                    <div className="p-3 bg-white rounded-xl text-2xl shadow-sm">🤝</div>
-                  </div>
-                  <p className="text-5xl font-black text-primary-dark my-2">{consultantSummary.upcoming_appointments_count}</p>
-                  <Link to="/consultant/appointments" className="inline-flex items-center text-primary-dark font-semibold hover:underline mt-2 text-sm">
-                      Kelola Appointments <span className="ml-1">→</span>
-                  </Link>
-              </div>
-          </div>
           
           {/* Quick Actions for Consultant */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-              <Link to="/consultant/appointments" className="card p-4 hover:-translate-y-1 transition-transform cursor-pointer border-none shadow-sm hover:shadow-md bg-white text-center group">
-                  <div className="w-12 h-12 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">📅</div>
-                  <div className="font-semibold text-gray-700">Kelola Appointments</div>
-                  <div className="text-xs text-gray-400 mt-1">Approve & reschedule</div>
-              </Link>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <Link to="/consultant/analytics" className="card p-4 hover:-translate-y-1 transition-transform cursor-pointer border-none shadow-sm hover:shadow-md bg-white text-center group">
                   <div className="w-12 h-12 mx-auto bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-purple-600 group-hover:text-white transition-colors">📊</div>
                   <div className="font-semibold text-gray-700">Ringkasan Mahasiswa</div>
                   <div className="text-xs text-gray-400 mt-1">Data agregat kondisi mental</div>
-              </Link>
-              <Link to="/schedules" className="card p-4 hover:-translate-y-1 transition-transform cursor-pointer border-none shadow-sm hover:shadow-md bg-white text-center group">
-                  <div className="w-12 h-12 mx-auto bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-green-600 group-hover:text-white transition-colors">🗓️</div>
-                  <div className="font-semibold text-gray-700">Jadwal Konseling</div>
-                  <div className="text-xs text-gray-400 mt-1">Atur ketersediaan</div>
               </Link>
           </div>
           </>
@@ -342,13 +290,6 @@ export default function Dashboard() {
                 <div className="font-semibold text-gray-700">Profil Saya</div>
                 <div className="text-xs text-gray-400 mt-1">Atur akunmu</div>
             </Link>
-             {user.role_id !== 3 && (
-                <Link to="/appointments" className="card p-4 hover:-translate-y-1 transition-transform cursor-pointer border-none shadow-sm hover:shadow-md bg-white text-center group">
-                    <div className="w-12 h-12 mx-auto bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-yellow-600 group-hover:text-white transition-colors">📅</div>
-                    <div className="font-semibold text-gray-700">Janji Temu</div>
-                    <div className="text-xs text-gray-400 mt-1">Kelola sesi konseling</div>
-                </Link>
-            )}
         </div>
       </div>
     </div>

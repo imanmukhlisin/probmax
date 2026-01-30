@@ -58,8 +58,8 @@ export default function DefaultLayout() {
       { name: 'Cek Harian', path: '/daily-check', role: 3 }, // User only
       { name: 'PMC Game', path: '/pmc-game', role: 3 }, // User only
       { name: 'LiveChat AI', path: '/chat-ai' },
-      { name: 'Janji Konseling', path: '/appointments' },
-      { name: 'Jadwal Konsultan', path: '/schedules' },
+      { name: 'Janji Konseling', path: '/appointments', role: 3 },
+      { name: 'Jadwal Konsultan', path: '/schedules', role: 3 },
   ];
 
   return (
