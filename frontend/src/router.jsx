@@ -12,6 +12,7 @@ import DailyCheckHistory from "./views/DailyCheckHistory";
 import UserFeedback from "./views/UserFeedback";
 import ChatAI from "./views/ChatAI";
 import Profile from "./views/Profile";
+import UserManagement from "./views/UserManagement";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile />
+      },
+      {
+        path: '/user-management',
+        element: <UserManagement />
       },
     ]
   },

@@ -43,21 +43,71 @@ class DashboardController extends Controller
     // Summary for Consultant
     public function consultantSummary()
     {
-        // Note: Currently appointments don't have consultant_id directly, 
-        // effectively all appointments or we filter by schedule. 
-        // For now, returning general stats as placeholder or if schema updated.
-        // Assuming we show all upcoming appointments for the consultant to pick/manage.
+        $consultantId = Auth::id();
+        $today = now()->toDateString();
+        $endOfWeek = now()->endOfWeek()->toDateString();
+
+        // 1. Stats
+        $appointmentsThisWeek = Appointment::whereBetween('appointment_date', [$today, $endOfWeek])->count();
         
-        $upcomingAppointments = Appointment::where('appointment_date', '>=', now()->toDateString())
+        $nearestAppointment = Appointment::with('user:id,username')
+                                ->where('appointment_date', '>=', $today)
+                                ->where('status', '!=', 'cancelled')
+                                ->orderBy('appointment_date', 'asc')
+                                ->orderBy('appointment_time', 'asc')
+                                ->first();
+        
+        $activeSchedulesCount = ConsultantSchedule::where('consultant_id', $consultantId)
+                                ->where('date', '>=', $today)
                                 ->count();
-        
-        $mySchedules = ConsultantSchedule::where('consultant_id', Auth::id())
-                        ->where('date', '>=', now()->toDateString())
-                        ->count();
+
+        // 2. Recent Appointments
+        $recentAppointments = Appointment::with('user:id,username')
+                                ->orderBy('created_at', 'desc')
+                                ->limit(5)
+                                ->get();
+
+        // 3. Upcoming Schedules
+        $upcomingSchedules = ConsultantSchedule::where('consultant_id', $consultantId)
+                                ->where('date', '>=', $today)
+                                ->orderBy('date', 'asc')
+                                ->orderBy('start_time', 'asc')
+                                ->limit(5)
+                                ->get();
+
+        // 4. Student Analytics (Consolidated from ConsultantAnalyticsController)
+        $categoryDistribution = DailyFeedback::select(
+            \Illuminate\Support\Facades\DB::raw('CASE 
+                WHEN total_score <= 10 THEN "Normal"
+                WHEN total_score <= 20 THEN "Stres Ringan"
+                WHEN total_score <= 30 THEN "Stres Sedang"
+                ELSE "Stres Berat"
+            END as category'),
+            \Illuminate\Support\Facades\DB::raw('COUNT(DISTINCT user_id) as count')
+        )
+        ->groupBy('category')
+        ->get();
+
+        $moodTrends = UserFeedback::select(
+            'selected_mood',
+            \Illuminate\Support\Facades\DB::raw('COUNT(*) as count')
+        )
+        ->where('created_at', '>=', now()->subDays(7))
+        ->groupBy('selected_mood')
+        ->get();
 
         return response([
-            'upcoming_appointments_count' => $upcomingAppointments,
-            'my_schedules_count' => $mySchedules
+            'stats' => [
+                'appointments_this_week' => $appointmentsThisWeek,
+                'nearest_appointment' => $nearestAppointment,
+                'active_schedules_count' => $activeSchedulesCount,
+            ],
+            'recent_appointments' => $recentAppointments,
+            'upcoming_schedules' => $upcomingSchedules,
+            'analytics' => [
+                'category_distribution' => $categoryDistribution,
+                'mood_trends' => $moodTrends,
+            ]
         ]);
     }
 }

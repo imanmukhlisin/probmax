@@ -18,7 +18,7 @@ export default function Dashboard() {
             .then(({data}) => { 
                 setStats(data);
                 // Also fetch users for management
-                return axiosClient.get('/users');
+                return axiosClient.get('/admin/users');
             })
             .then(({data}) => setUsers(data))
             .catch(err => console.error(err))
@@ -37,12 +37,12 @@ export default function Dashboard() {
   }, [user]);
 
   const updateUserRole = (userId, newRoleId) => {
-      if(!window.confirm("Are you sure you want to change this user's role?")) return;
-      axiosClient.put(`/users/${userId}`, { role_id: newRoleId })
+      if(!window.confirm("Apakah Anda yakin ingin mengubah role user ini?")) return;
+      axiosClient.put(`/admin/users/${userId}`, { role_id: newRoleId })
         .then(() => {
-            alert("User role updated!");
+            alert("Role user berhasil diupdate!");
             // Refresh list
-            axiosClient.get('/users').then(({data}) => setUsers(data));
+            axiosClient.get('/admin/users').then(({data}) => setUsers(data));
         })
         .catch(err => alert("Failed to update role"));
   }
@@ -96,49 +96,44 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            <div className="card">
+            <div className="card shadow-md border-none">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold text-primary-dark">Manajemen User</h2>
+                    <div>
+                        <h2 className="text-xl font-bold text-primary-dark">Manajemen User</h2>
+                        <p className="text-sm text-gray-400">Informasi data user yang terdaftar dan aktif</p>
+                    </div>
                     <div className="text-sm text-gray-400">Kelola role pengguna</div>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+                <div className="overflow-x-auto -mx-6 sm:mx-0">
+                    <table className="w-full text-left">
                         <thead>
-                            <tr className="border-b border-gray-100 text-gray-500 text-sm">
-                                <th className="p-4 font-semibold">Pengguna</th>
-                                <th className="p-4 font-semibold">Email</th>
-                                <th className="p-4 font-semibold">Status Role</th>
-                                <th className="p-4 font-semibold">Aksi</th>
+                            <tr className="border-b border-gray-100 text-gray-400 text-[10px] md:text-sm font-semibold">
+                                <th className="px-6 py-6 transition-all">Pengguna</th>
+                                <th className="px-6 py-6 hidden sm:table-cell">Email</th>
+                                <th className="px-6 py-6">Status Role</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
+                            {users.length === 0 && (
+                                <tr>
+                                    <td colSpan="3" className="p-10 text-center text-gray-400 italic">Belum ada data user.</td>
+                                </tr>
+                            )}
                             {users.map(u => (
                                 <tr key={u.id} className="hover:bg-gray-50 transition-colors group">
-                                    <td className="p-4">
-                                        <div className="font-medium text-gray-800">{u.username}</div>
+                                    <td className="px-6 py-6 transition-all">
+                                        <div className="font-bold text-gray-800">{u.username}</div>
+                                        <div className="text-[10px] text-gray-400 sm:hidden">{u.email}</div>
                                     </td>
-                                    <td className="p-4 text-gray-600">{u.email}</td>
-                                    <td className="p-4">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                            u.role_id===1?'bg-red-100 text-red-800':
-                                            u.role_id===2?'bg-purple-100 text-purple-800':
-                                            'bg-green-100 text-green-800'
+                                    <td className="px-6 py-6 text-gray-500 hidden sm:table-cell">{u.email}</td>
+                                    <td className="px-6 py-6">
+                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                                            u.role_id === 1 ? 'bg-red-100 text-red-700' :
+                                            u.role_id === 2 ? 'bg-purple-100 text-purple-700' :
+                                            'bg-green-100 text-green-700'
                                         }`}>
-                                            {u.role ? u.role.name : (u.role_id === 1 ? 'Admin' : u.role_id === 2 ? 'Consultant' : 'User')}
+                                            {u.role ? u.role.name : (u.role_id === 1 ? 'Admin' : u.role_id === 2 ? 'Consultant' : 'Mahasiswa')}
                                         </span>
-                                    </td>
-                                    <td className="p-4">
-                                        {u.id !== user.id && (
-                                            <select 
-                                                className="bg-white border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2 outline-none cursor-pointer hover:border-primary transition-colors"
-                                                value={u.role_id} 
-                                                onChange={e => updateUserRole(u.id, e.target.value)}
-                                            >
-                                                <option value="1">Admin</option>
-                                                <option value="2">Consultant</option>
-                                                <option value="3">User</option>
-                                            </select>
-                                        )}
                                     </td>
                                 </tr>
                             ))}
@@ -151,17 +146,199 @@ export default function Dashboard() {
 
       {/* ---------------- CONSULTANT DASHBOARD ---------------- */}
       {user.role_id === 2 && consultantSummary && (
-          <>
-          
-          {/* Quick Actions for Consultant */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              <Link to="/consultant/analytics" className="card p-4 hover:-translate-y-1 transition-transform cursor-pointer border-none shadow-sm hover:shadow-md bg-white text-center group">
-                  <div className="w-12 h-12 mx-auto bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-purple-600 group-hover:text-white transition-colors">📊</div>
-                  <div className="font-semibold text-gray-700">Ringkasan Mahasiswa</div>
-                  <div className="text-xs text-gray-400 mt-1">Data agregat kondisi mental</div>
-              </Link>
+          <div className="space-y-10">
+            {/* 1. Summary Section */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="card border-l-4 border-primary bg-white shadow-sm">
+                    <div className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Appointment Minggu Ini</div>
+                    <div className="text-4xl font-black text-gray-800">{consultantSummary?.stats?.appointments_this_week || 0}</div>
+                    <div className="text-xs text-gray-400 mt-2">Total janji terjadwal pekan ini</div>
+                </div>
+                
+                <div className="card border-l-4 border-secondary bg-white shadow-sm">
+                    <div className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Appointment Terdekat</div>
+                    {consultantSummary?.stats?.nearest_appointment ? (
+                        <div>
+                            <div className="text-lg font-black text-gray-800 truncate">
+                                {consultantSummary?.stats?.nearest_appointment?.user?.username}
+                            </div>
+                            <div className="text-sm font-bold text-secondary mt-1">
+                                📅 {new Date(consultantSummary?.stats?.nearest_appointment?.appointment_date).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'})} 
+                                <span className="mx-2">|</span> 
+                                ⏰ {consultantSummary?.stats?.nearest_appointment?.appointment_time}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="text-gray-400 italic text-sm mt-2">Tidak ada janji mendatamg</div>
+                    )}
+                </div>
+
+                <div className="card border-l-4 border-accent-green bg-white shadow-sm">
+                    <div className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Jadwal Aktif</div>
+                    <div className="text-4xl font-black text-gray-800">{consultantSummary?.stats?.active_schedules_count || 0}</div>
+                    <div className="text-xs text-gray-400 mt-2">Slot waktu tersedia untuk Anda</div>
+                </div>
+            </div>
+
+            {/* 2. Appointments Section */}
+            <div className="card shadow-md border-none pb-0">
+                <div className="flex justify-between items-center mb-6 px-6 pt-2">
+                    <h2 className="text-xl font-black text-gray-800">Janji Konseling Terbaru</h2>
+                    <Link to="/consultant/appointments" className="text-primary text-sm font-bold hover:underline">Lihat Semua</Link>
+                </div>
+                <div className="overflow-x-auto -mx-6 sm:mx-0">
+                    <table className="w-full text-left">
+                        <thead>
+                            <tr className="bg-gray-50/50 text-gray-400 text-[10px] font-black uppercase tracking-widest ">
+                                <th className="px-6 py-4">Mahasiswa</th>
+                                <th className="px-6 py-4">Waktu</th>
+                                <th className="px-6 py-4 hidden md:table-cell">Lokasi</th>
+                                <th className="px-6 py-4">Status</th>
+                                <th className="px-6 py-4 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-50 text-xs md:text-sm">
+                            {(!consultantSummary?.recent_appointments || consultantSummary.recent_appointments.length === 0) && (
+                                <tr>
+                                    <td colSpan="5" className="p-10 text-center text-gray-400 italic">Belum ada janji temu tercatat.</td>
+                                </tr>
+                            )}
+                            {consultantSummary?.recent_appointments?.map(app => (
+                                <tr key={app.id} className="hover:bg-gray-50/50 transition-colors">
+                                    <td className="px-6 py-5 font-bold text-gray-800">{app.user.username}</td>
+                                    <td className="px-6 py-5">
+                                        <div className="font-bold text-gray-700">{new Date(app.appointment_date).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'})}</div>
+                                        <div className="text-[10px] text-gray-400">{app.appointment_time}</div>
+                                    </td>
+                                    <td className="px-6 py-5 text-gray-500 hidden md:table-cell">{app.location || '-'}</td>
+                                    <td className="px-6 py-5">
+                                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${
+                                            app.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                                            app.status === 'confirmed' ? 'bg-blue-100 text-blue-700' :
+                                            app.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                            'bg-red-100 text-red-700'
+                                        }`}>
+                                            {app.status}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-5 text-right">
+                                        <Link to="/consultant/appointments" className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors inline-block border border-transparent hover:border-primary/20">
+                                            <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* 3. Schedules Section */}
+                <div className="card shadow-md border-none">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-xl font-black text-gray-800">Jadwal Saya</h2>
+                        <Link to="/schedules" className="text-primary text-sm font-bold hover:underline">Kelola Jadwal</Link>
+                    </div>
+                    <div className="space-y-4">
+                        {(!consultantSummary?.upcoming_schedules || consultantSummary.upcoming_schedules.length === 0) && (
+                            <p className="p-6 text-center text-gray-400 italic text-sm">Belum ada jadwal aktif.</p>
+                        )}
+                        {consultantSummary?.upcoming_schedules?.map(sch => (
+                            <div key={sch.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 group hover:border-primary/30 transition-colors">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary font-bold">
+                                        {new Date(sch.date).getDate()}
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-gray-700">{new Date(sch.date).toLocaleDateString('id-ID', {weekday: 'long', month: 'short', year: 'numeric'})}</div>
+                                        <div className="text-xs text-gray-400">{sch.start_time} - {sch.end_time}</div>
+                                    </div>
+                                </div>
+                                <div className="text-xs font-black text-primary px-3 py-1 bg-white rounded-full shadow-sm border border-gray-100">AKTIF</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* 4. Analytics Section */}
+                <div className="card shadow-md border-none">
+                    <h2 className="text-xl font-black text-gray-800 mb-6">Gambaran Kondisi Mahasiswa</h2>
+                    <div className="space-y-6">
+                        <div>
+                            <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Distribusi Cek Harian</h3>
+                            <div className="space-y-3">
+                                {consultantSummary?.analytics?.category_distribution?.map(cat => (
+                                    <div key={cat.category}>
+                                        <div className="flex justify-between text-xs font-bold mb-1">
+                                            <span className="text-gray-600">{cat.category}</span>
+                                            <span className="text-gray-400">{cat.count} orang</span>
+                                        </div>
+                                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                            <div 
+                                                className={`h-full rounded-full ${
+                                                    cat.category === 'Normal' ? 'bg-green-400' :
+                                                    cat.category === 'Stres Ringan' ? 'bg-yellow-400' :
+                                                    cat.category === 'Stres Sedang' ? 'bg-orange-400' : 'bg-red-400'
+                                                }`}
+                                                style={{ width: `${(cat.count / 10) * 100}%` }}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Mood Umum Minggu Ini</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {consultantSummary?.analytics?.mood_trends?.map(mood => (
+                                    <div key={mood.selected_mood} className="px-4 py-2 bg-purple-50 rounded-2xl border border-purple-100 flex items-center gap-3">
+                                        <span className="text-lg">
+                                            {mood.selected_mood === 'Senang' ? '😊' : 
+                                             mood.selected_mood === 'Biasa saja' ? '😐' : 
+                                             mood.selected_mood === 'Sedih' ? '😢' : 
+                                             mood.selected_mood === 'Marah' ? '😠' : '😌'}
+                                        </span>
+                                        <div>
+                                            <div className="text-[10px] font-black text-purple-700 uppercase leading-none">{mood.selected_mood}</div>
+                                            <div className="text-xs font-bold text-gray-500">{mood.count} total</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* 5. Shortcuts Section */}
+            <div>
+                <h2 className="text-xl font-black text-gray-800 mb-6">Navigasi Cepat</h2>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <Link to="/schedules" className="card p-5 bg-white border-none shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
+                        <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition-colors">📅</div>
+                        <div className="font-black text-gray-700 text-sm">Kelola Jadwal</div>
+                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-1">Atur ketersediaan</div>
+                    </Link>
+                    <Link to="/consultant/appointments" className="card p-5 bg-white border-none shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
+                        <div className="w-12 h-12 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-purple-500 group-hover:text-white transition-colors">🤝</div>
+                        <div className="font-black text-gray-700 text-sm">Semua Janji</div>
+                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-1">Lihat histori janji</div>
+                    </Link>
+                    <Link to="/consultant/analytics" className="card p-5 bg-white border-none shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
+                        <div className="w-12 h-12 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-green-500 group-hover:text-white transition-colors">📊</div>
+                        <div className="font-black text-gray-700 text-sm">Rekap Mahasiswa</div>
+                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-1">Data agregat mental</div>
+                    </Link>
+                    <Link to="/consultant/analytics" className="card p-5 bg-white border-none shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
+                        <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-orange-500 group-hover:text-white transition-colors">🎭</div>
+                        <div className="font-black text-gray-700 text-sm">Statistik Mood</div>
+                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-1">Analisis mood mingguan</div>
+                    </Link>
+                </div>
+            </div>
           </div>
-          </>
       )}
 
       {/* ---------------- STUDENT DASHBOARD ---------------- */}
@@ -267,31 +444,6 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Quick Actions */}
-      <div>
-        <h2 className="text-xl font-bold mb-6 text-primary-dark">Menu Cepat</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {user.role_id === 3 && (
-                <>
-                <Link to="/chat-ai" className="card p-4 hover:-translate-y-1 transition-transform cursor-pointer border-none shadow-sm hover:shadow-md bg-white text-center group">
-                    <div className="w-12 h-12 mx-auto bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-purple-600 group-hover:text-white transition-colors">🤖</div>
-                    <div className="font-semibold text-gray-700">LiveChat AI</div>
-                    <div className="text-xs text-gray-400 mt-1">Teman cerita virtual</div>
-                </Link>
-                <Link to="/daily-check/history" className="card p-4 hover:-translate-y-1 transition-transform cursor-pointer border-none shadow-sm hover:shadow-md bg-white text-center group">
-                    <div className="w-12 h-12 mx-auto bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-green-600 group-hover:text-white transition-colors">📜</div>
-                    <div className="font-semibold text-gray-700">Riwayat Cek</div>
-                    <div className="text-xs text-gray-400 mt-1">Pantau perkembanganmu</div>
-                </Link>
-                </>
-            )}
-            <Link to="/profile" className="card p-4 hover:-translate-y-1 transition-transform cursor-pointer border-none shadow-sm hover:shadow-md bg-white text-center group">
-                <div className="w-12 h-12 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">👤</div>
-                <div className="font-semibold text-gray-700">Profil Saya</div>
-                <div className="text-xs text-gray-400 mt-1">Atur akunmu</div>
-            </Link>
-        </div>
-      </div>
     </div>
   )
 }

@@ -28,7 +28,7 @@ export default function DefaultLayout() {
   }, [location]);
 
   if (!token) {
-    return <Navigate to="/login" />
+    return <Navigate to="/home" />
   }
 
   // Show loading state while user data is being fetched
@@ -60,6 +60,7 @@ export default function DefaultLayout() {
       { name: 'LiveChat AI', path: '/chat-ai' },
       { name: 'Janji Konseling', path: '/appointments', role: 3 },
       { name: 'Jadwal Konsultan', path: '/schedules', role: 3 },
+      { name: 'Kelola User', path: '/user-management', role: 1 },
   ];
 
   return (
@@ -125,39 +126,63 @@ export default function DefaultLayout() {
           </div>
 
           {/* Mobile Menu (Drawer) */}
-          {isOpen && (
-              <div className="md:hidden bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-xl absolute w-full z-40 animate-fade-in-down">
-                  <div className="px-4 pt-4 pb-6 space-y-2">
+          <div className={`md:hidden fixed inset-0 z-40 transition-all duration-300 ${isOpen ? 'visible' : 'invisible'}`}>
+              {/* Backdrop */}
+              <div 
+                className={`absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+                onClick={() => setIsOpen(false)}
+              ></div>
+              
+              {/* Drawer Content */}
+              <div className={`absolute top-0 right-0 w-72 h-full bg-white shadow-2xl transform transition-transform duration-300 ease-out p-6 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                  <div className="flex justify-between items-center mb-8">
+                      <div className="flex items-center gap-2">
+                          <span className="text-2xl">🌿</span>
+                          <span className="text-primary-dark font-bold">ProbmaxCare</span>
+                      </div>
+                      <button onClick={() => setIsOpen(false)} className="p-2 text-gray-400 hover:text-gray-600">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                      </button>
+                  </div>
+
+                  <div className="space-y-4">
                       {navLinks.map(link => (
                            (!link.role || link.role === user.role_id) && (
                             <Link 
                                 key={link.path} 
                                 to={link.path}
                                 onClick={() => setIsOpen(false)}
-                                className={`block px-4 py-3 rounded-xl text-base font-medium transition-all ${
+                                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-base font-bold transition-all ${
                                     location.pathname === link.path 
-                                    ? 'bg-primary/10 text-primary border-l-4 border-primary' 
+                                    ? 'bg-primary text-white shadow-lg shadow-primary/20' 
                                     : 'text-gray-600 hover:bg-gray-50 hover:text-primary'
                                 }`}
                             >
-                                {link.name}
+                                <span>{link.name}</span>
                             </Link>
                           )
                       ))}
-                      <div className="border-t border-gray-100 mt-4 pt-4">
-                          <Link to="/profile" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-primary flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-secondary-light text-secondary flex items-center justify-center font-bold text-sm">
-                                {user.username?.charAt(0).toUpperCase() || 'U'}
-                              </div>
+                      <div className="border-t border-gray-100 mt-6 pt-6">
+                            <div className="flex items-center gap-3 px-4 mb-6">
+                                <div className="w-10 h-10 rounded-full bg-secondary-light text-secondary flex items-center justify-center font-bold text-sm">
+                                    {user.username?.charAt(0).toUpperCase() || 'U'}
+                                </div>
+                                <div className="truncate">
+                                    <div className="font-bold text-gray-800 leading-tight">{user.username}</div>
+                                    <div className="text-xs text-gray-400">{user.email}</div>
+                                </div>
+                            </div>
+
+                          <Link to="/profile" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl text-base font-bold text-gray-600 hover:bg-gray-50 hover:text-primary mb-2">
                               Profil Saya
                           </Link>
-                          <button onClick={onLogout} className="w-full text-left block px-4 py-3 rounded-xl text-base font-medium text-accent-red hover:bg-red-50 transition-colors mt-2">
+                          <button onClick={onLogout} className="w-full text-left block px-4 py-3 rounded-xl text-base font-bold text-accent-red hover:bg-red-50 transition-colors">
                               Keluar Aplikasi
                           </button>
                       </div>
                   </div>
               </div>
-          )}
+          </div>
       </nav>
 
       {/* Main Content */}

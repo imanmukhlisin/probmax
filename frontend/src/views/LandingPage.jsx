@@ -171,20 +171,9 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="relative">
-              <div className="card p-8 bg-white shadow-2xl">
-                <div className="text-center">
-                  <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-6xl shadow-xl">
-                    🌱
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-3">Mulai Perjalananmu</h3>
-                  <p className="text-gray-600 mb-6">
-                    Daftar sekarang dan akses semua fitur ProbmaxCare secara gratis!
-                  </p>
-                  <Link to="/register" className="btn-primary btn-lg w-full">
-                    Daftar Gratis 🎉
-                  </Link>
-                </div>
+            <div className="relative flex justify-center items-center">
+              <div className="w-64 h-64 rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center text-8xl">
+                🌱
               </div>
             </div>
           </div>

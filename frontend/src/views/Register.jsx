@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -8,7 +8,8 @@ export default function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
-  const { setUser, setToken } = useStateContext();
+  const { setNotification } = useStateContext();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -25,9 +26,9 @@ export default function Register() {
     };
 
     axiosClient.post('/register', payload)
-      .then(({ data }) => {
-        setUser(data.user);
-        setToken(data.token);
+      .then(() => {
+        setNotification("Registrasi berhasil! Silakan masuk dengan akun barumu. ✨");
+        navigate('/login');
       })
       .catch((err) => {
         setLoading(false);

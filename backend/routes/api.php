@@ -50,8 +50,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/profile', [AuthController::class, 'updateProfile']);
 
     // Phase 3: Dashboard & User Management
-    Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']); // Admin only usually, middleware check in frontend/controller
-    Route::put('/users/{id}', [\App\Http\Controllers\UserController::class, 'update']);
+    Route::get('/admin/users', [\App\Http\Controllers\AdminUserController::class, 'index']);
+    Route::post('/admin/users', [\App\Http\Controllers\AdminUserController::class, 'store']);
+    Route::put('/admin/users/{user}', [\App\Http\Controllers\AdminUserController::class, 'update']);
+    Route::delete('/admin/users/{user}', [\App\Http\Controllers\AdminUserController::class, 'destroy']);
+    Route::get('/admin/roles', [\App\Http\Controllers\AdminUserController::class, 'roles']);
     
     Route::get('/dashboard/user-summary', [\App\Http\Controllers\DashboardController::class, 'userSummary']);
     Route::get('/dashboard/consultant-summary', [\App\Http\Controllers\DashboardController::class, 'consultantSummary']);
