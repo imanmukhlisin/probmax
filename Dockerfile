@@ -29,5 +29,8 @@ COPY backend/ .
 # Install composer dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Expose port and start server
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
+# Make startup script executable
+RUN chmod +x start.sh
+
+# Expose port and start server using the script
+CMD ["./start.sh"]
