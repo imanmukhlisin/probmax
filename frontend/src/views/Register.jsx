@@ -35,8 +35,12 @@ export default function Register() {
         const response = err.response;
         if (response && response.status === 422) {
           setErrors(response.data.errors);
+        } else if (response) {
+          // Show specific error from backend if available
+          const message = response.data?.message || `Error ${response.status}: Terjadi kesalahan pada server.`;
+          setErrors({ general: [message] });
         } else {
-          setErrors({ general: ['Terjadi kesalahan. Silakan coba lagi.'] });
+          setErrors({ general: ['Koneksi ke server gagal. Periksa koneksi internet Anda.'] });
         }
       });
   };
