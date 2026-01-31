@@ -29,11 +29,13 @@ export default function Login() {
         setLoading(false);
         const response = err.response;
         if (response && response.status === 422) {
-          setErrors(response.data.errors || { general: [response.data.message] });
-        } else if (response && response.status === 401) {
-          setErrors({ general: [response.data.message || 'Username atau password salah.'] });
+          setErrors(response.data.errors);
+        } else if (response) {
+          // Show specific error from backend if available
+          const message = response.data?.message || `Error ${response.status}: Terjadi kesalahan pada server.`;
+          setErrors({ general: [message] });
         } else {
-          setErrors({ general: [response?.data?.message || 'Terjadi kesalahan sistem. Silakan coba lagi.'] });
+          setErrors({ general: ['Koneksi ke server gagal. Periksa koneksi backend di Railway.'] });
         }
       });
   };
