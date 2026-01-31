@@ -19,9 +19,13 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'https://frontend-production-747f.up.railway.app',
+    ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => ['/^https?:\/\/.*\.up\.railway\.app$/'],
 
     'allowed_headers' => ['*'],
 
