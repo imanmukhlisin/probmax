@@ -20,6 +20,24 @@ use App\Http\Controllers\AuthController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/db-test', function () {
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Database connection is working!',
+            'database' => \Illuminate\Support\Facades\DB::connection()->getDatabaseName(),
+            'driver' => \Illuminate\Support\Facades\DB::connection()->getDriverName(),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Could not connect to the database. Please check your configuration.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 // Diagnostic Routes
 Route::get('/test', function () {
     return response()->json(['message' => 'Backend is Alive!', 'time' => now()]);
