@@ -44,16 +44,29 @@ Route::get('/test', function () {
 });
 
 Route::get('/test-db', function () {
+    $config = config('database.connections.mysql');
+    $debugInfo = [
+        'host' => $config['host'],
+        'port' => $config['port'],
+        'database' => $config['database'],
+        'username' => $config['username'],
+        'has_password' => !empty($config['password']),
+        'connection' => $config['driver'] ?? 'mysql',
+    ];
+
     try {
-        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        DB::connection()->getPdo();
         return response()->json([
+            'status' => 'Success',
             'message' => 'Database Connected!',
-            'database' => \Illuminate\Support\Facades\DB::connection()->getDatabaseName()
+            'debug_config' => $debugInfo
         ]);
     } catch (\Exception $e) {
         return response()->json([
-            'message' => 'Database Error',
-            'error' => $e->getMessage()
+            'status' => 'Error',
+            'message' => 'Database Connection Failed',
+            'debug_config' => $debugInfo,
+            'error_detail' => $e->getMessage()
         ], 500);
     }
 });
