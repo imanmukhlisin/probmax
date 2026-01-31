@@ -43,6 +43,21 @@ Route::get('/test', function () {
     return response()->json(['message' => 'Backend is Alive!', 'time' => now()]);
 });
 
+Route::get('/table-check', function () {
+    try {
+        $tables = DB::select('SHOW TABLES');
+        return response()->json([
+            'status' => 'Success',
+            'tables' => $tables
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'Error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 Route::get('/test-db', function () {
     $config = config('database.connections.mysql');
     $debugInfo = [
