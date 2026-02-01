@@ -17,6 +17,9 @@ use App\Http\Controllers\AuthController;
 */
 
 // Public routes
+Route::get('/ping', function () {
+    return response()->json(['status' => 'success', 'message' => 'Laravel on Vercel is alive!']);
+});
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
