@@ -35,7 +35,7 @@ export default function Login() {
           const message = response.data?.message || `Error ${response.status}: Terjadi kesalahan pada server.`;
           setErrors({ general: [message] });
         } else {
-          setErrors({ general: ['Koneksi ke server gagal. Periksa koneksi backend di Railway.'] });
+          setErrors({ general: ['Koneksi ke server gagal. Pastikan backend di https://probmax.vercel.app sudah aktif.'] });
         }
       });
   };
