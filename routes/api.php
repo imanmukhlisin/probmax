@@ -69,13 +69,16 @@ Route::get('/force-seed', function () {
     try {
         config(['app.debug' => true]);
         
-        // Direct seeding logic to bypass Artisan overhead
-        $seeder = new \Database\Seeders\DatabaseSeeder();
-        $seeder->run();
+        // Manual seeding without Seeder class to ensure it's simple
+        \Illuminate\Support\Facades\DB::table('roles')->insertOrIgnore([
+            ['name' => 'Admin'],
+            ['name' => 'Consultant'],
+            ['name' => 'Student']
+        ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Database direct seeding completed!'
+            'message' => 'Roles seeded successfully!'
         ]);
     } catch (\Exception $e) {
         return response()->json([
@@ -84,6 +87,24 @@ Route::get('/force-seed', function () {
             'file' => $e->getFile(),
             'line' => $e->getLine()
         ], 500);
+    }
+});
+
+Route::get('/db-check-full', function () {
+    try {
+        $tables = \Illuminate\Support\Facades\DB::select('SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = \'public\'');
+        $results = [];
+        foreach ($tables as $table) {
+            $name = $table->tablename;
+            $count = \Illuminate\Support\Facades\DB::table($name)->count();
+            $results[$name] = $count;
+        }
+        return response()->json([
+            'status' => 'success',
+            'tables_with_counts' => $results
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
 });
 
