@@ -54,7 +54,29 @@ try {
         echo "ℹ️ Roles table already has data. skipping seed.<br>";
     }
 
-    $stmt = $pdo->query("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'");
+    echo "<h3>Current Roles:</h3>";
+    $stmt = $pdo->query("SELECT * FROM roles");
+    $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo "<table border='1'><tr><th>ID</th><th>Name</th></tr>";
+    foreach ($roles as $r) {
+        echo "<tr><td>{$r['id']}</td><td>{$r['name']}</td></tr>";
+    }
+    echo "</table>";
+
+    echo "<h3>Current Users:</h3>";
+    $stmt = $pdo->query("SELECT id, username, email, role_id FROM users");
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (count($users) == 0) {
+        echo "⚠️ No users found in database.<br>";
+    } else {
+        echo "<table border='1'><tr><th>ID</th><th>Username</th><th>Email</th><th>Role ID</th></tr>";
+        foreach ($users as $u) {
+            echo "<tr><td>{$u['id']}</td><td>{$u['username']}</td><td>{$u['email']}</td><td>{$u['role_id']}</td></tr>";
+        }
+        echo "</table>";
+    }
+
+    echo "<h3>Diagnostic Summary:</h3>";
     $tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo "Tables found: " . count($tables) . "<br>";
     echo "<pre>";
