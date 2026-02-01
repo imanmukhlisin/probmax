@@ -67,23 +67,28 @@ Route::get('/check-schema', function () {
 
 Route::get('/force-seed', function () {
     try {
-        // Force debug mode for this request to see errors
         config(['app.debug' => true]);
         
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+        // Direct seeding logic to bypass Artisan overhead
+        $seeder = new \Database\Seeders\DatabaseSeeder();
+        $seeder->run();
+
         return response()->json([
             'status' => 'success',
-            'output' => \Illuminate\Support\Facades\Artisan::output()
+            'message' => 'Database direct seeding completed!'
         ]);
     } catch (\Exception $e) {
         return response()->json([
             'status' => 'error',
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString()
+            'line' => $e->getLine()
         ], 500);
     }
+});
+
+Route::get('/phpinfo', function () {
+    phpinfo();
 });
 
 // Protected routes
