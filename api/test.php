@@ -67,16 +67,27 @@ try {
     $stmt = $pdo->query("SELECT id, username, email, role_id FROM users");
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (count($users) == 0) {
-        echo "⚠️ No users found in database.<br>";
-    } else {
-        echo "<table border='1'><tr><th>ID</th><th>Username</th><th>Email</th><th>Role ID</th></tr>";
-        foreach ($users as $u) {
-            echo "<tr><td>{$u['id']}</td><td>{$u['username']}</td><td>{$u['email']}</td><td>{$u['role_id']}</td></tr>";
-        }
-        echo "</table>";
+        echo "⚙️ Seeding default users...<br>";
+        $pass = password_hash('password', PASSWORD_BCRYPT);
+        $pdo->exec("INSERT INTO users (username, email, password, role_id, created_at, updated_at) VALUES 
+            ('admin', 'admin@probmax.com', '$pass', 1, NOW(), NOW()), 
+            ('dosen', 'dosen@probmax.com', '$pass', 2, NOW(), NOW()), 
+            ('mahasiswa', 'mahasiswa@probmax.com', '$pass', 3, NOW(), NOW())");
+        echo "✅ Users SEEDED successfully!<br>";
+        
+        // Refresh users list
+        $stmt = $pdo->query("SELECT id, username, email, role_id FROM users");
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    echo "<table border='1'><tr><th>ID</th><th>Username</th><th>Email</th><th>Role ID</th></tr>";
+    foreach ($users as $u) {
+        echo "<tr><td>{$u['id']}</td><td>{$u['username']}</td><td>{$u['email']}</td><td>{$u['role_id']}</td></tr>";
+    }
+    echo "</table>";
+
     echo "<h3>Diagnostic Summary:</h3>";
+    $stmt = $pdo->query("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'");
     $tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo "Tables found: " . count($tables) . "<br>";
     echo "<pre>";
