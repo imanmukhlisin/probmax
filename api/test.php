@@ -20,13 +20,13 @@ echo "<h2>3. Available PDO Drivers</h2>";
 print_r(PDO::getAvailableDrivers());
 
 echo "<h2>4. Environment Variables Check</h2>";
-$env_keys = ['DB_HOST', 'DB_DATABASE', 'DB_USERNAME', 'DB_CONNECTION'];
+$env_keys = ['DB_HOST', 'DB_DATABASE', 'DB_USERNAME', 'DB_CONNECTION', 'APP_KEY'];
 foreach ($env_keys as $key) {
     $val = getenv($key);
     echo "$key: " . ($val ? "✅ Present" : "❌ MISSING") . "<br>";
 }
 
-echo "<h2>5. Database Connection Test</h2>";
+echo "<h2>5. Database Connection & Seeding Test</h2>";
 $host = getenv('DB_HOST');
 $port = getenv('DB_PORT') ?: '5432';
 $db   = getenv('DB_DATABASE');
@@ -38,6 +38,22 @@ try {
     $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     echo "✅ Database connection SUCCESSFUL!<br>";
     
+    // Check if roles table is empty
+    $stmt = $pdo->query("SELECT COUNT(*) FROM roles");
+    $count = $stmt->fetchColumn();
+    echo "Current roles count: $count <br>";
+
+    if ($count == 0) {
+        echo "⚙️ Seeding roles...<br>";
+        $pdo->exec("INSERT INTO roles (name, created_at, updated_at) VALUES 
+            ('Admin', NOW(), NOW()), 
+            ('Consultant', NOW(), NOW()), 
+            ('Student', NOW(), NOW())");
+        echo "✅ Roles SEEDED successfully!<br>";
+    } else {
+        echo "ℹ️ Roles table already has data. skipping seed.<br>";
+    }
+
     $stmt = $pdo->query("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'");
     $tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo "Tables found: " . count($tables) . "<br>";
