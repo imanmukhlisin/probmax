@@ -71,3 +71,37 @@ Route::get('/api/force-migrate', function () {
         ], 500);
     }
 });
+
+// Diagnostic: Check Schema
+Route::get('/api/check-schema', function () {
+    try {
+        $columns = \Illuminate\Support\Facades\DB::select('SELECT column_name, data_type FROM information_schema.columns WHERE table_name = \'users\'');
+        $rolesCount = \Illuminate\Support\Facades\DB::table('roles')->count();
+        return response()->json([
+            'status' => 'success',
+            'users_columns' => $columns,
+            'roles_count' => $rolesCount
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
+// Force Seed
+Route::get('/api/force-seed', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+        return response()->json([
+            'status' => 'success',
+            'output' => \Illuminate\Support\Facades\Artisan::output()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
