@@ -53,10 +53,6 @@ ATURAN PERANMU:
 
         // Prepare context/history for Gemini
         $contents = [];
-        
-        // Add System Prompt as the first turn (simulated via user role if needed, or just prepended)
-        // Gemini 1.5 Flash supports system_instruction, but let's stick to content for stability or use systemPrompt
-        
         $history = $request->history ?? [];
         foreach ($history as $msg) {
             if ($msg['sender'] === 'bot' || $msg['sender'] === 'user') {
@@ -67,20 +63,22 @@ ATURAN PERANMU:
             }
         }
 
-        // Add the system prompt to the first user message if history is empty, 
-        // or as a special context for the current message.
-        $actualMessage = "KONTEKS SISTEM: {$systemPrompt}\n\nUser: {$userMessage}";
-        
+        // Add the current user message
         $contents[] = [
             'role' => 'user',
-            'parts' => [['text' => $actualMessage]]
+            'parts' => [['text' => $userMessage]]
         ];
 
         try {
-            // Call Gemini API
+            // Call Gemini API with proper System Instruction
             $response = Http::timeout(40)->post(
                 "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}",
                 [
+                    'system_instruction' => [
+                        'parts' => [
+                            ['text' => $systemPrompt]
+                        ]
+                    ],
                     'contents' => $contents,
                     'generationConfig' => [
                         'temperature' => 0.8,
