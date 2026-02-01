@@ -67,10 +67,22 @@ Route::get('/check-schema', function () {
 
 Route::get('/force-seed', function () {
     try {
+        // Force debug mode for this request to see errors
+        config(['app.debug' => true]);
+        
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-        return response()->json(['status' => 'success', 'output' => \Illuminate\Support\Facades\Artisan::output()]);
+        return response()->json([
+            'status' => 'success',
+            'output' => \Illuminate\Support\Facades\Artisan::output()
+        ]);
     } catch (\Exception $e) {
-        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
     }
 });
 
