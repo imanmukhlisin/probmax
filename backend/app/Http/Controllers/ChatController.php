@@ -34,22 +34,26 @@ class ChatController extends Controller
         }
 
         // System prompt untuk konteks aplikasi
-        $systemPrompt = "Kamu adalah Probmax AI, asisten kesehatan mental khusus mahasiswa keperawatan di aplikasi ProbmaxCare. 
+        $systemPrompt = "Kamu adalah Probmax AI, teman curhat dan asisten kesehatan mental khusus untuk mahasiswa keperawatan di aplikasi ProbmaxCare.
 
 KONTEKS PENGGUNA SAAT INI:
 {$userContext}
 
-KONTEKS APLIKASI:
-- ProbmaxCare adalah platform edukasi kesehatan mental mahasiswa keperawatan.
-- Fitur: Cek Kesehatan Harian (self-assessment), PMC Game (mood tracker), Chat AI (kamu), dan Buat Janji (konseling).
+PRINSIP KOMUNIKASI:
+1. Jawab secara kontekstual dan empati, bukan jawaban template.
+2. Gunakan Bahasa Indonesia yang hangat, ramah, dan natural (seperti teman bicara), tidak kaku/medis berat.
+3. Jika pengguna menyebutkan masalah mental (stres, cemas, sedih, dll), jelaskan secara singkat dan mudah dipahami.
+4. Di akhir setiap jawaban, WAJIB ajukan SATU pertanyaan lanjutan yang relevan dan reflektif untuk memancing pengguna bercerita lebih lanjut.
+5. Gunakan nama ({$user->username}) secara alami dalam percakapan agar terasa personal.
 
-ATURAN PERANMU:
-1. Gunakan nama pengguna ({$user->username}) agar terasa lebih personal.
-2. Jawab sesuai konteks kesehatan mental terakhir pengguna jika relevan.
-3. Berikan dukungan emosional yang hangat, empati, dan profesional.
-4. Sarankan fitur yang relevan: 'Cek Harian' jika ingin tahu kondisi, 'Buat Janji' jika butuh bicara dengan ahli.
-5. Jangan diagnosa medis. Jawab singkat dan ramah (maks 3-4 kalimat).
-6. Gunakan Bahasa Indonesia yang sopan namun tetap akrab.";
+LARANGAN KERAS:
+1. JANGAN memberikan jawaban template seperti 'terima kasih sudah berbagi'.
+2. JANGAN langsung menyarankan fitur aplikasi (kecuali pengguna bertanya atau percakapan sudah sangat mendalam).
+3. JANGAN melakukan diagnosa medis atau memberikan label penyakit.
+4. JANGAN memutus percakapan secara sepihak.
+5. JANGAN menyebutkan ini hanya saran umum kecuali sangat terpaksa.
+
+Tujuanmu adalah menjadi pendengar yang baik bagi para calon perawat.";
 
         // Prepare context/history for Gemini
         $contents = [];
@@ -114,25 +118,25 @@ ATURAN PERANMU:
         $message = strtolower($message);
         
         if (str_contains($message, 'halo') || str_contains($message, 'hai')) {
-            return "Halo! Saya Probmax AI 🤖. Ada yang bisa saya bantu terkait kesehatan mental hari ini?";
+            return "Halo! Senang bisa ngobrol sama kamu hari ini. Gimana kabarmu, ada sesuatu yang lagi ada di pikiran?";
         }
         
         if (str_contains($message, 'stres') || str_contains($message, 'tertekan')) {
-            return "Saya mengerti perasaan stres bisa sangat berat. Cobalah teknik pernapasan dalam atau istirahat sejenak. Kamu juga bisa gunakan fitur 'Cek Harian' untuk memahami kondisimu lebih baik, atau 'Buat Janji' untuk konsultasi dengan profesional.";
+            return "Aku mengerti banget, stres itu rasanya berat banget ya di badan sama pikiran. Biasanya kalau lagi tertekan gini, apa sih hal utama yang bikin kamu rasa terbebani banget?";
         }
         
         if (str_contains($message, 'cemas') || str_contains($message, 'khawatir')) {
-            return "Perasaan cemas itu wajar, tapi jangan biarkan menguasai dirimu. Coba fokus pada hal-hal yang bisa kamu kontrol. Fitur 'PMC Game' bisa membantu kamu tracking mood harian. Jika cemas berlanjut, pertimbangkan untuk konsultasi via 'Buat Janji'.";
+            return "Rasa cemas itu emang gak enak banget, kayak ada yang ngeganjel terus ya. Boleh tau nggak, apa yang biasanya muncul di pikiran kamu pas rasa cemas itu dateng?";
         }
         
         if (str_contains($message, 'sedih') || str_contains($message, 'depresi')) {
-            return "Saya turut prihatin mendengarnya. Perasaan sedih yang berkepanjangan perlu perhatian serius. Yuk gunakan fitur 'Cek Harian' untuk monitor kondisimu, dan jangan ragu untuk 'Buat Janji' konseling dengan profesional kami.";
+            return "Makasih ya udah mau cerita ke aku. Sedih yang dalam emang butuh waktu buat dipahami. Sejak kapan perasaan ini mulai terasa berat buat kamu?";
         }
         
         if (str_contains($message, 'terima kasih') || str_contains($message, 'makasih')) {
-            return "Sama-sama! Senang bisa membantu. Jangan ragu untuk chat lagi kapan saja ya 😊";
+            return "Sama-sama! Aku seneng bisa nemenin kamu cerita. Apa ada hal lain yang pengen kamu obrolin atau luapin ke aku?";
         }
         
-        return "Terima kasih sudah berbagi. Saya di sini untuk mendengarkan. Kalau kamu butuh bantuan lebih lanjut, coba gunakan fitur 'Cek Harian' atau 'Buat Janji' untuk konsultasi dengan profesional.";
+        return "Aku dengerin kok. Kayaknya itu emang bukan hal yang gampang buat dihadapi ya. Boleh ceritain lebih lanjut nggak soal apa yang lagi kamu rasain sekarang?";
     }
 }
