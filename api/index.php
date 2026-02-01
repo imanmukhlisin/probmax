@@ -1,4 +1,16 @@
 <?php
 
-// Forward request to Laravel's public entry point
-require __DIR__ . '/../public/index.php';
+// Normalisasi path agar Vercel mendeteksi autoload dari root
+require __DIR__ . '/../vendor/autoload.php';
+
+// Bootstrap Laravel
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+
+// Run Kernel
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+)->send();
+
+$kernel->terminate($request, $response);
