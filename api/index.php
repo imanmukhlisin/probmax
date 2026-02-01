@@ -1,8 +1,17 @@
 <?php
 
+// --- DEBUG MODE (Temporarily see fatal errors) ---
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // --- FORCE CORS HEADERS (Fix for Vercel/Serverless) ---
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '*';
-header("Access-Control-Allow-Origin: $origin");
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+// If credentials are true, Origin cannot be '*'
+if ($origin) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    header("Access-Control-Allow-Origin: *");
+}
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Credentials: true");
