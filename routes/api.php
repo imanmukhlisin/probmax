@@ -23,6 +23,57 @@ Route::get('/ping', function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+// Diagnostic & Database Management (Production Fixes)
+Route::get('/test-db', function () {
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Database connection established!',
+            'db_name' => \Illuminate\Support\Facades\DB::connection()->getDatabaseName()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+});
+
+Route::get('/check-tables', function () {
+    try {
+        $tables = \Illuminate\Support\Facades\DB::select('SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != \'pg_catalog\' AND schemaname != \'information_schema\'');
+        return response()->json(['status' => 'success', 'tables' => array_column($tables, 'tablename')]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+});
+
+Route::get('/force-migrate', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return response()->json(['status' => 'success', 'output' => \Illuminate\Support\Facades\Artisan::output()]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+});
+
+Route::get('/check-schema', function () {
+    try {
+        $columns = \Illuminate\Support\Facades\DB::select('SELECT column_name, data_type FROM information_schema.columns WHERE table_name = \'users\'');
+        $rolesCount = \Illuminate\Support\Facades\DB::table('roles')->count();
+        return response()->json(['status' => 'success', 'users_columns' => $columns, 'roles_count' => $rolesCount]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+});
+
+Route::get('/force-seed', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+        return response()->json(['status' => 'success', 'output' => \Illuminate\Support\Facades\Artisan::output()]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+});
+
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
