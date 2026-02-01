@@ -11,6 +11,10 @@
             "dest": "/api/test.php"
         },
         {
+            "src": "/api/test.php",
+            "dest": "/api/test.php"
+        },
+        {
             "src": "/api/(.*)",
             "dest": "/api/index.php"
         },

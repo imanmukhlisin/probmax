@@ -3,7 +3,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-echo "<h1>Vercel PHP Diagnostic</h1>";
+echo "<h1>Vercel PHP Diagnostic - HELLO!</h1>";
+echo "Jika Anda melihat tulisan ini, berarti Script PHP Jalan. <br>";
 
 echo "<h2>1. Basic PHP Info</h2>";
 echo "PHP Version: " . phpversion() . "<br>";
