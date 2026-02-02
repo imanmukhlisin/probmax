@@ -79,9 +79,7 @@ export default function DefaultLayout() {
               <div className="flex justify-between h-20">
                   <div className="flex items-center gap-12">
                       <Link to="/dashboard" className="flex-shrink-0 flex items-center gap-3 group">
-                          <div className="w-11 h-11 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary text-2xl group-hover:scale-110 transition-all duration-300">
-                             🌿
-                          </div>
+                          <img src="/logo-unriyo.png" alt="Logo UNRIYO" className="w-12 h-12 object-contain group-hover:scale-110 transition-all duration-300 drop-shadow-sm" />
                           <span className="text-primary-dark font-black text-2xl tracking-tighter">ProbmaxCare</span>
                       </Link>
                       <div className="flex items-center gap-1">
@@ -126,7 +124,7 @@ export default function DefaultLayout() {
       {/* Navbar Mobile Top */}
       <nav className="lg:hidden bg-white/90 backdrop-blur-xl border-b border-gray-100 sticky top-0 z-50 px-4 h-16 flex items-center justify-between shadow-sm">
           <Link to="/dashboard" className="flex items-center gap-2">
-              <span className="text-2xl">🌿</span>
+              <img src="/logo-unriyo.png" alt="Logo" className="w-8 h-8 object-contain" />
               <span className="text-primary-dark font-black text-lg tracking-tight">ProbmaxCare</span>
           </Link>
           <div className="flex items-center gap-3">
@@ -156,7 +154,7 @@ export default function DefaultLayout() {
           <div className={`absolute top-0 right-0 w-80 max-w-[85%] h-full bg-white shadow-2xl transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
               <div className="p-8 border-b border-gray-50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-2xl">🌿</div>
+                      <img src="/logo-unriyo.png" alt="Logo" className="w-10 h-10 object-contain" />
                       <span className="text-primary-dark font-black text-xl">ProbmaxCare</span>
                   </div>
                   <button onClick={() => setIsOpen(false)} className="p-2 rounded-xl bg-gray-50 text-gray-400 hover:text-red-500 transition-colors">

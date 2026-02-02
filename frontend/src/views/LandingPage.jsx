@@ -42,7 +42,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain" onError={(e) => e.target.style.display='none'} />
+              <img src="/logo-unriyo.png" alt="Logo UNRIYO" className="w-10 h-10 object-contain" onError={(e) => e.target.style.display='none'} />
               <span className="text-xl md:text-2xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 ProbmaxCare
               </span>
@@ -173,7 +173,7 @@ export default function LandingPage() {
 
             <div className="relative flex justify-center items-center">
               <div className="w-64 h-64 rounded-full bg-white/50 backdrop-blur-sm border-2 border-white shadow-xl flex items-center justify-center p-8">
-                <img src="/logo.png" alt="Logo UNRIYO" className="w-full h-full object-contain drop-shadow-lg" />
+                <img src="/logo-unriyo.png" alt="Logo UNRIYO" className="w-full h-full object-contain drop-shadow-lg" />
               </div>
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <img src="/logo.png" alt="Logo" className="w-12 h-12 object-contain brightness-0 invert" />
+                <img src="/logo-unriyo.png" alt="Logo" className="w-12 h-12 object-contain" />
                 <span className="text-2xl font-black text-white">ProbmaxCare</span>
               </div>
               <p className="text-gray-400 text-sm">

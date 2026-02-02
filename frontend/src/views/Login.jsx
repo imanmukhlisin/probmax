@@ -46,8 +46,8 @@ export default function Login() {
       <div className="w-full max-w-md animate-fade-in-up">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4">
-            <span className="text-3xl">🌿</span>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4 overflow-hidden p-2">
+            <img src="/logo-unriyo.png" alt="Logo UNRIYO" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">ProbmaxCare</h1>
           <p className="text-gray-600">Edukasi Kesehatan Mental Mahasiswa</p>
