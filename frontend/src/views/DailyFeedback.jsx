@@ -50,22 +50,193 @@ const questionnaire = [
     ]
   },
   {
-    question: "Apakah Anda merasa tertekan dengan tugas-tugas perkuliahan?",
+    question: "Apakah Anda merasa puas dengan kualitas hubungan Anda dengan keluarga atau teman?",
     options: [
-      { label: "Tidak pernah, saya menikmatinya", score: 0 },
-      { label: "Sesekali saja", score: 1 },
-      { label: "Sering merasa lelah", score: 2 },
-      { label: "Sangat tertekan dan ingin berhenti", score: 3 }
+      { label: "Ya, sangat puas", score: 0 },
+      { label: "Cukup puas", score: 1 },
+      { label: "Tidak terlalu puas", score: 2 },
+      { label: "Tidak puas sama sekali", score: 3 }
+    ]
+  },
+  {
+    question: "Saat menghadapi masalah, bagaimana reaksi Anda?",
+    options: [
+      { label: "Menghadapinya dengan berpikir positif dan tenang", score: 0 },
+      { label: "Menunda penyelesaian masalah hingga terasa mendesak", score: 1 },
+      { label: "Cemas atau panik, tapi tetap mencoba menyelesaikannya", score: 2 },
+      { label: "Menghindari masalah sepenuhnya", score: 3 }
+    ]
+  },
+  {
+    question: "Seberapa sering Anda meluangkan waktu untuk diri sendiri (self-care)?",
+    options: [
+      { label: "Setiap hari", score: 0 },
+      { label: "Beberapa kali seminggu", score: 1 },
+      { label: "Jarang, mungkin hanya sebulan sekali", score: 2 },
+      { label: "Tidak pernah sama sekali", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa terbebani oleh ekspektasi dari orang lain (keluarga, teman, atau pekerjaan)?",
+    options: [
+      { label: "Tidak pernah", score: 0 },
+      { label: "Kadang-kadang", score: 1 },
+      { label: "Cukup sering", score: 2 },
+      { label: "Sangat sering", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda kehilangan minat untuk melakukan kegiatan sehari-hari?",
+    options: [
+      { label: "Tidak", score: 0 },
+      { label: "Tidak yakin", score: 1 },
+      { label: "Kadang-kadang", score: 2 },
+      { label: "Ya, saya tidak memiliki minat", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda sering merasa lelah secara fisik dan mental?",
+    options: [
+      { label: "Tidak", score: 0 },
+      { label: "Tidak yakin", score: 1 },
+      { label: "Kadang-kadang", score: 2 },
+      { label: "Selalu merasa lelah", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa kesepian satu minggu terakhir ini?",
+    options: [
+      { label: "Tidak", score: 0 },
+      { label: "Tidak yakin", score: 1 },
+      { label: "Lumayan kesepian", score: 2 },
+      { label: "Sangat kesepian", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda memiliki harapan yang dicapai?",
+    options: [
+      { label: "Ya, banyak harapan", score: 0 },
+      { label: "Ya, beberapa harapan", score: 1 },
+      { label: "Tidak yakin", score: 2 },
+      { label: "Tidak ada harapan", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa kehilangan suatu harapan?",
+    options: [
+      { label: "Tidak", score: 0 },
+      { label: "Tidak yakin", score: 1 },
+      { label: "Ya, beberapa harapan", score: 2 },
+      { label: "Ya, harapan yang sangat penting", score: 3 }
+    ]
+  },
+  {
+    question: "Seberapa sering Anda kesulitan untuk berkonsentrasi dalam kegiatan sehari-hari?",
+    options: [
+      { label: "Tidak pernah", score: 0 },
+      { label: "Tidak yakin", score: 1 },
+      { label: "Kadang-kadang", score: 2 },
+      { label: "Saya kesulitan", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa sulit untuk mengambil keputusan akhir-akhir ini?",
+    options: [
+      { label: "Tidak pernah", score: 0 },
+      { label: "Jarang", score: 1 },
+      { label: "Sering", score: 2 },
+      { label: "Sangat sulit", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa kurang percaya diri dalam melakukan aktivitas?",
+    options: [
+      { label: "Tetap percaya diri", score: 0 },
+      { label: "Sedikit kurang yakin", score: 1 },
+      { label: "Sering merasa ragu", score: 2 },
+      { label: "Sangat rendah diri", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda sering merasa tegang atau sulit untuk rileks?",
+    options: [
+      { label: "Tidak pernah", score: 0 },
+      { label: "Kadang-kadang", score: 1 },
+      { label: "Sering", score: 2 },
+      { label: "Hampir setiap saat", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa terasing dari orang-orang di sekitar Anda?",
+    options: [
+      { label: "Tidak, saya merasa terhubung", score: 0 },
+      { label: "Sedikit terasing", score: 1 },
+      { label: "Cukup terasing", score: 2 },
+      { label: "Sangat terisolasi", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa pesimis terhadap masa depan?",
+    options: [
+      { label: "Optimis", score: 0 },
+      { label: "Cukup optimis", score: 1 },
+      { label: "Sedikit pesimis", score: 2 },
+      { label: "Sangat pesimis", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda sering merasa pusing atau sakit perut saat stres?",
+    options: [
+      { label: "Tidak pernah", score: 0 },
+      { label: "Jarang", score: 1 },
+      { label: "Sering", score: 2 },
+      { label: "Hampir setiap kali stres", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda mengalami perubahan nafsu makan (makan terlalu banyak atau terlalu sedikit)?",
+    options: [
+      { label: "Normal", score: 0 },
+      { label: "Kadang berubah", score: 1 },
+      { label: "Sering berubah", score: 2 },
+      { label: "Berubah drastis", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa lebih suka menarik diri dari lingkungan sosial?",
+    options: [
+      { label: "Tidak suka menyendiri", score: 0 },
+      { label: "Kadang ingin sendiri", score: 1 },
+      { label: "Sering menyendiri", score: 2 },
+      { label: "Selalu menarik diri", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa hidup Anda penuh dengan beban yang berat?",
+    options: [
+      { label: "Terasa ringan", score: 0 },
+      { label: "Masih bisa diatasi", score: 1 },
+      { label: "Terasa cukup berat", score: 2 },
+      { label: "Sangat berat beban hidup", score: 3 }
+    ]
+  },
+  {
+    question: "Apakah Anda merasa memerlukan teman curhat atau bantuan profesional saat ini?",
+    options: [
+      { label: "Tidak butuh", score: 0 },
+      { label: "Mungkin suatu saat", score: 1 },
+      { label: "Mulai membutuhkan", score: 2 },
+      { label: "Sangat membutuhkan sekarang", score: 3 }
     ]
   }
 ];
 
 // Helper to determine score color/category
 const getResultCategory = (score) => {
-    // adjusted threshold for 6 questions (max score 18)
-    if (score <= 4) return { category: 'Normal', color: 'bg-green-100 text-green-800', border: 'border-green-500', icon: '😊' };
-    if (score <= 8) return { category: 'Stres Ringan', color: 'bg-yellow-100 text-yellow-800', border: 'border-yellow-500', icon: '😐' };
-    if (score <= 13) return { category: 'Stres Sedang', color: 'bg-orange-100 text-orange-800', border: 'border-orange-500', icon: '😟' };
+    // adjusted threshold for 25 questions (max score 75)
+    if (score <= 18) return { category: 'Normal', color: 'bg-green-100 text-green-800', border: 'border-green-500', icon: '😊' };
+    if (score <= 37) return { category: 'Stres Ringan', color: 'bg-yellow-100 text-yellow-800', border: 'border-yellow-500', icon: '😐' };
+    if (score <= 56) return { category: 'Stres Sedang', color: 'bg-orange-100 text-orange-800', border: 'border-orange-500', icon: '😟' };
     return { category: 'Stres Berat', color: 'bg-red-100 text-red-800', border: 'border-red-500', icon: '😰' };
 };
 

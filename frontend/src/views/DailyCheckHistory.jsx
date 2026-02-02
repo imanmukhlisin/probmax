@@ -16,11 +16,11 @@ export default function DailyCheckHistory() {
             .catch(() => setLoading(false));
     }, []);
 
-    // Helper to get color based on score (similar to DailyFeedback view)
+    // Helper to get color based on score (aligned with 25 questions)
     const getScoreAttributes = (score) => {
-        if (score <= 10) return { label: 'Normal', color: 'bg-green-100 text-green-700', border: 'border-green-500' };
-        if (score <= 20) return { label: 'Stres Ringan', color: 'bg-yellow-100 text-yellow-700', border: 'border-yellow-500' };
-        if (score <= 30) return { label: 'Stres Sedang', color: 'bg-orange-100 text-orange-700', border: 'border-orange-500' };
+        if (score <= 18) return { label: 'Normal', color: 'bg-green-100 text-green-700', border: 'border-green-500' };
+        if (score <= 37) return { label: 'Stres Ringan', color: 'bg-yellow-100 text-yellow-700', border: 'border-yellow-500' };
+        if (score <= 56) return { label: 'Stres Sedang', color: 'bg-orange-100 text-orange-700', border: 'border-orange-500' };
         return { label: 'Stres Berat', color: 'bg-red-100 text-red-700', border: 'border-red-500' };
     };
 
