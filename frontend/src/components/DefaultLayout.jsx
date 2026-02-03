@@ -80,7 +80,7 @@ export default function DefaultLayout() {
                   <div className="flex items-center gap-12">
                       <Link to="/dashboard" className="flex-shrink-0 flex items-center gap-3 group">
                           <img src="/logo-unriyo.png" alt="Logo UNRIYO" className="w-12 h-12 object-contain group-hover:scale-110 transition-all duration-300 drop-shadow-sm" />
-                          <span className="text-primary-dark font-black text-2xl tracking-tighter">ProbMaxCare</span>
+                          <span className="text-primary-dark font-black text-2xl tracking-tighter">CodeFit Innovate</span>
                       </Link>
                       <div className="flex items-center gap-1">
                           {navLinks.map(link => (
@@ -125,7 +125,7 @@ export default function DefaultLayout() {
       <nav className="lg:hidden bg-white/90 backdrop-blur-xl border-b border-gray-100 sticky top-0 z-50 px-4 h-16 flex items-center justify-between shadow-sm">
           <Link to="/dashboard" className="flex items-center gap-2">
               <img src="/logo-unriyo.png" alt="Logo" className="w-8 h-8 object-contain" />
-              <span className="text-primary-dark font-black text-lg tracking-tight">ProbMaxCare</span>
+              <span className="text-primary-dark font-black text-lg tracking-tight">CodeFit Innovate</span>
           </Link>
           <div className="flex items-center gap-3">
               <Link to="/profile" className="w-9 h-9 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-black text-sm">
@@ -155,7 +155,7 @@ export default function DefaultLayout() {
               <div className="p-8 border-b border-gray-50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                       <img src="/logo-unriyo.png" alt="Logo" className="w-10 h-10 object-contain" />
-                      <span className="text-primary-dark font-black text-xl">ProbMaxCare</span>
+                      <span className="text-primary-dark font-black text-xl">CodeFit Innovate</span>
                   </div>
                   <button onClick={() => setIsOpen(false)} className="p-2 rounded-xl bg-gray-50 text-gray-400 hover:text-red-500 transition-colors">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>

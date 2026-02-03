@@ -12,7 +12,7 @@
     </head>
     <body class="antialiased bg-gray-100 flex items-center justify-center min-h-screen">
         <div class="max-w-7xl mx-auto p-6 lg:p-8 text-center">
-             <h1 class="text-4xl font-bold text-gray-900 mb-4">ProbmaxCare Backend</h1>
+             <h1 class="text-4xl font-bold text-gray-900 mb-4">CodeFit Innovate Backend</h1>
              <p class="text-gray-600 mb-8">API server is running correctly.</p>
              <div class="flex justify-center space-x-4">
                  <a href="/api/test" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Test API</a>

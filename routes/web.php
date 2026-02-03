@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return response()->json(['message' => 'ProbmaxCare Backend is Running']);
+    return response()->json(['message' => 'CodeFit Innovate Backend is Running']);
 });
 
 
