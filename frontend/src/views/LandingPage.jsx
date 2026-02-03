@@ -8,28 +8,28 @@ export default function LandingPage() {
     {
       icon: "🧠",
       title: "PMC Game",
-      description: "Isi hasi menarik, cari tahu mood kamu hari ini, dan temukan aktivitas seru buat ngisi waktu!",
+      description: "Pilih opsi menarik, cari tahu mood kamu hari ini, dan temukan aktivitas seru buat ngisi waktu!",
       color: "from-blue-400 to-cyan-400",
       image: "🎮"
     },
     {
       icon: "📋",
       title: "Cek Kesehatan Mental",
-      description: "Isi pertanyaan singkat tentang kondisi mental kamu. Simpel, cepat, dan bermakna!",
+      description: "Isi pertanyaan singkat tentang kondisi mentalmu. Simpel, cepat, dan bermakna!",
       color: "from-purple-400 to-pink-400",
       image: "🧘"
     },
     {
       icon: "💬",
       title: "LiveChat AI",
-      description: "Curhat sama AI yang siap mendengarkan 24/7. Privasi terjaga, dukungan selalu ada!",
+      description: "Punya pertanyaan? langsung tanyakan ke asisten AI kami!",
       color: "from-green-400 to-teal-400",
       image: "🤖"
     },
     {
       icon: "📅",
       title: "Buat Janji Konseling",
-      description: "Butuh bantuan profesional? Jadwalkan sesi konseling dengan dosen atau psikolog kami!",
+      description: "Atur waktu untuk ngobrol secara daring dengan konsultan kami siap mendengarkanmu!",
       color: "from-orange-400 to-red-400",
       image: "🤝"
     }
@@ -44,7 +44,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-2">
               <img src="/logo-unriyo.png" alt="Logo UNRIYO" className="w-10 h-10 object-contain" onError={(e) => e.target.style.display='none'} />
               <span className="text-xl md:text-2xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                ProbmaxCare
+                ProbMaxCare
               </span>
             </div>
             <div className="flex gap-2 md:gap-3">
@@ -59,44 +59,48 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-24">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
         <div className="text-center animate-fade-in-up">
-          <div className="inline-block mb-4">
-            <span className="bg-primary/10 text-primary px-3 py-1 md:px-4 md:py-2 rounded-full text-[10px] md:text-sm font-bold uppercase tracking-wider">
-              Platform Edukasi Kesehatan Mental
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-800 mb-6 leading-[1.1]">
-            Hai, <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Mahasiswa!</span> 👋
+          <h1 className="text-3xl md:text-5xl font-black text-gray-800 mb-6 tracking-tight">
+            ProbMaxCare
           </h1>
-          <p className="text-base md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed px-4">
-            Selamat datang di <strong className="text-primary-dark">ProbmaxCare</strong>! Kami di sini untuk mendukungmu. 
-            Jelajahi fitur-fitur seru dan mari bagi berbagai cerita dengan kami. 
-            Ingat, kamu nggak sendirian! 💚
+          <p className="text-base md:text-lg text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed px-4 font-medium italic">
+            "Kesehatan mental adalah fondasi kebahagiaan dan keberhasilan anda. <br className="hidden md:block"/> Bersama, kita temukan jalan menuju keseimbangan dan ketenangan jiwa."
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link to="/register" className="btn-primary btn-lg w-full sm:w-auto shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 text-sm md:text-base">
-              Mulai Sekarang 🚀
-            </Link>
-            <a href="#features" className="btn-outline btn-lg w-full sm:w-auto text-sm md:text-base">
-              Lihat Fitur
-            </a>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-2 md:gap-8 max-w-2xl mx-auto mt-12 md:mt-20">
-            <div className="text-center p-3 rounded-2xl bg-white/50 backdrop-blur-sm border border-white shadow-sm">
-              <div className="text-2xl md:text-4xl font-black text-primary">4</div>
-              <div className="text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-tighter sm:tracking-normal mt-1">Fitur</div>
-            </div>
-            <div className="text-center p-3 rounded-2xl bg-white/50 backdrop-blur-sm border border-white shadow-sm">
-              <div className="text-2xl md:text-4xl font-black text-secondary">24/7</div>
-              <div className="text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-tighter sm:tracking-normal mt-1">Chat AI</div>
-            </div>
-            <div className="text-center p-3 rounded-2xl bg-white/50 backdrop-blur-sm border border-white shadow-sm">
-              <div className="text-2xl md:text-4xl font-black text-accent-green">100%</div>
-              <div className="text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-tighter sm:tracking-normal mt-1">Gratis</div>
+          
+          {/* Proposal Style Hero Card */}
+          <div className="relative max-w-4xl mx-auto aspect-[16/10] md:aspect-[21/9] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white mb-16 group">
+            <img 
+              src="/welcome-bg.png" 
+              alt="Ocean Sunrise" 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+            />
+            {/* Overlay for better text readability if needed */}
+            <div className="absolute inset-0 bg-black/5"></div>
+            
+            <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-10">
+              <div className="bg-white/95 backdrop-blur-md p-6 sm:p-10 rounded-3xl shadow-xl max-w-lg w-full text-center border border-white/50 animate-fade-in">
+                <h2 className="text-xl sm:text-2xl font-black text-gray-800 mb-3">
+                  Hai, Selamat Datang di ProbMaxCare! ☀️
+                </h2>
+                <p className="text-gray-600 text-sm sm:text-base font-medium mb-8 leading-relaxed">
+                  Ayo mulai perjalananmu bersama kami. Silakan login atau registrasi untuk melanjutkan. 🙂
+                </p>
+                <div className="flex gap-4 justify-center">
+                  <Link 
+                    to="/login" 
+                    className="flex-1 max-w-[140px] py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-black text-sm transition-all shadow-lg hover:shadow-blue-200 active:scale-95"
+                  >
+                    Login
+                  </Link>
+                  <Link 
+                    to="/register" 
+                    className="flex-1 max-w-[140px] py-3 rounded-full bg-accent-green hover:bg-green-600 text-white font-black text-sm transition-all shadow-lg hover:shadow-green-200 active:scale-95"
+                  >
+                    Register
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -205,7 +209,7 @@ export default function LandingPage() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <img src="/logo-unriyo.png" alt="Logo" className="w-12 h-12 object-contain" />
-                <span className="text-2xl font-black text-white">ProbmaxCare</span>
+                <span className="text-2xl font-black text-white">ProbMaxCare</span>
               </div>
               <p className="text-gray-400 text-sm">
                 Platform edukasi kesehatan mental mahasiswa Universitas Respati Yogyakarta.
@@ -230,7 +234,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            © 2026 ProbmaxCare. All rights reserved. Made with 💚 for mental health awareness.
+            © 2026 ProbMaxCare. All rights reserved. Made with 💚 for mental health awareness.
           </div>
         </div>
       </footer>
