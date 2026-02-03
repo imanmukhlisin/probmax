@@ -6,32 +6,28 @@ export default function LandingPage() {
 
   const features = [
     {
-      icon: "🧠",
+      image: "/features/game.png",
       title: "PMC Game",
-      description: "Pilih opsi menarik, cari tahu mood kamu hari ini, dan temukan aktivitas seru buat ngisi waktu!",
+      description: "Isi hal-hal menarik, cari tahu mood kamu hari ini, dan temukan aktivitas seru buat ngisi waktu!",
       color: "from-blue-400 to-cyan-400",
-      image: "🎮"
     },
     {
-      icon: "📋",
+      image: "/features/check.png",
       title: "Cek Kesehatan Mental",
-      description: "Isi pertanyaan singkat tentang kondisi mentalmu. Simpel, cepat, dan bermakna!",
+      description: "Pantau kesehatan mentalmu secara rutin dengan tes yang tervalidasi secara klinis.",
       color: "from-purple-400 to-pink-400",
-      image: "🧘"
     },
     {
-      icon: "💬",
-      title: "LiveChat AI",
-      description: "Punya pertanyaan? langsung tanyakan ke asisten AI kami!",
-      color: "from-green-400 to-teal-400",
-      image: "🤖"
-    },
-    {
-      icon: "📅",
-      title: "Buat Janji Konseling",
-      description: "Atur waktu untuk ngobrol secara daring dengan konsultan kami siap mendengarkanmu!",
+      image: "/features/consultation.png",
+      title: "Konsultasi Ahli",
+      description: "Jadwalkan sesi bincang santai dengan konselor atau psikolog profesional kami.",
       color: "from-orange-400 to-red-400",
-      image: "🤝"
+    },
+    {
+      image: "/features/ai.png",
+      title: "Chat AI",
+      description: "Teman bicara AI yang siap mendengarkan dan memberimu saran positif 24/7.",
+      color: "from-green-400 to-teal-400",
     }
   ];
 
@@ -68,18 +64,18 @@ export default function LandingPage() {
             "Kesehatan mental adalah fondasi kebahagiaan dan keberhasilan anda. <br className="hidden md:block"/> Bersama, kita temukan jalan menuju keseimbangan dan ketenangan jiwa."
           </p>
           
-          {/* Proposal Style Hero Card */}
-          <div className="relative max-w-4xl mx-auto aspect-[16/10] md:aspect-[21/9] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white mb-16 group">
+          {/* Proposal Style Hero Card - Responsive Fix */}
+          <div className="relative max-w-4xl mx-auto min-h-[350px] md:aspect-[21/9] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white mb-16 group flex items-center justify-center">
             <img 
               src="/welcome-bg.png" 
               alt="Ocean Sunrise" 
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
             />
-            {/* Overlay for better text readability if needed */}
-            <div className="absolute inset-0 bg-black/5"></div>
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-black/10"></div>
             
-            <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-10">
-              <div className="bg-white/95 backdrop-blur-md p-6 sm:p-10 rounded-3xl shadow-xl max-w-lg w-full text-center border border-white/50 animate-fade-in">
+            <div className="relative z-10 w-full p-4 sm:p-10 flex justify-center">
+              <div className="bg-white/95 backdrop-blur-md p-6 sm:p-12 rounded-[2rem] shadow-xl max-w-lg w-full text-center border border-white/50 animate-fade-in mx-auto">
                 <h2 className="text-xl sm:text-2xl font-black text-gray-800 mb-3">
                   Hai, Selamat Datang di ProbMaxCare! ☀️
                 </h2>
@@ -91,13 +87,13 @@ export default function LandingPage() {
                     to="/login" 
                     className="flex-1 max-w-[140px] py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-black text-sm transition-all shadow-lg hover:shadow-blue-200 active:scale-95"
                   >
-                    Login
+                    Masuk
                   </Link>
                   <Link 
                     to="/register" 
                     className="flex-1 max-w-[140px] py-3 rounded-full bg-accent-green hover:bg-green-600 text-white font-black text-sm transition-all shadow-lg hover:shadow-green-200 active:scale-95"
                   >
-                    Register
+                    Daftar
                   </Link>
                 </div>
               </div>
@@ -118,13 +114,17 @@ export default function LandingPage() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="card p-6 hover:-translate-y-2 transition-all cursor-pointer group border-2 border-transparent hover:border-primary/20"
-                onMouseEnter={() => setActiveFeature(index)}
+                className="card p-6 overflow-hidden hover:-translate-y-2 transition-all cursor-pointer group border-2 border-transparent hover:border-primary/20 bg-white"
               >
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
-                  {feature.icon}
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-100 relative shadow-inner">
+                  <img 
+                    src={feature.image} 
+                    alt={feature.title} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity`}></div>
                 </div>
-                <h3 className="font-bold text-xl text-gray-800 mb-2">{feature.title}</h3>
+                <h3 className="font-bold text-xl text-gray-800 mb-3 group-hover:text-primary transition-colors">{feature.title}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
               </div>
             ))}
@@ -184,23 +184,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-gradient-to-r from-primary to-secondary py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <h2 className="text-4xl font-black mb-4">Siap untuk Memulai?</h2>
-          <p className="text-xl mb-8 opacity-90">
-            Bergabunglah dengan ProbmaxCare dan jaga kesehatan mentalmu bersama kami!
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link to="/register" className="bg-white text-primary px-8 py-4 rounded-full font-bold hover:shadow-2xl transition-all transform hover:scale-105">
-              Daftar Sekarang
-            </Link>
-            <Link to="/login" className="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-primary transition-all">
-              Sudah Punya Akun?
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
