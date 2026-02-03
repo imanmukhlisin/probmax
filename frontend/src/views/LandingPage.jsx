@@ -43,14 +43,6 @@ export default function LandingPage() {
                 ProbMaxCare
               </span>
             </div>
-            <div className="flex gap-2 md:gap-3">
-              <Link to="/login" className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg font-medium border border-primary text-primary hover:bg-primary hover:text-white transition-all text-xs md:text-sm">
-                Masuk
-              </Link>
-              <Link to="/register" className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg font-medium bg-primary text-white hover:bg-primary-dark shadow-md hover:shadow-lg transition-all text-xs md:text-sm">
-                Daftar
-              </Link>
-            </div>
           </div>
         </div>
       </nav>
