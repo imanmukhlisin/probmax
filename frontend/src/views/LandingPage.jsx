@@ -40,7 +40,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-2">
               <img src="/logo-unriyo.png" alt="Logo UNRIYO" className="w-10 h-10 object-contain" onError={(e) => e.target.style.display='none'} />
               <span className="text-xl md:text-2xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                CodeFit Innovate
+                ProbMaxCare
               </span>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function LandingPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
         <div className="text-center animate-fade-in-up">
           <h1 className="text-3xl md:text-5xl font-black text-gray-800 mb-6 tracking-tight">
-            CodeFit Innovate
+            ProbMaxCare
           </h1>
           <p className="text-base md:text-lg text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed px-4 font-medium italic">
             "Kesehatan mental adalah fondasi kebahagiaan dan keberhasilan anda. <br className="hidden md:block"/> Bersama, kita temukan jalan menuju keseimbangan dan ketenangan jiwa."
@@ -69,7 +69,7 @@ export default function LandingPage() {
             <div className="relative z-10 w-full p-4 sm:p-10 flex justify-center">
               <div className="bg-white/95 backdrop-blur-md p-6 sm:p-12 rounded-[2rem] shadow-xl max-w-lg w-full text-center border border-white/50 animate-fade-in mx-auto">
                 <h2 className="text-xl sm:text-2xl font-black text-gray-800 mb-3">
-                  Hai, Selamat Datang di CodeFit Innovate! ☀️
+                  Hai, Selamat Datang di ProbMaxCare! ☀️
                 </h2>
                 <p className="text-gray-600 text-sm sm:text-base font-medium mb-8 leading-relaxed">
                   Ayo mulai perjalananmu bersama kami. Silakan login atau registrasi untuk melanjutkan. 🙂
@@ -184,7 +184,7 @@ export default function LandingPage() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <img src="/logo-unriyo.png" alt="Logo" className="w-12 h-12 object-contain" />
-                <span className="text-2xl font-black text-white">CodeFit Innovate</span>
+                <span className="text-2xl font-black text-white">ProbMaxCare</span>
               </div>
               <p className="text-gray-400 text-sm">
                 Platform edukasi kesehatan mental mahasiswa Universitas Respati Yogyakarta.

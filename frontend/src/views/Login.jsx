@@ -49,7 +49,7 @@ export default function Login() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4 overflow-hidden p-2">
             <img src="/logo-unriyo.png" alt="Logo UNRIYO" className="w-full h-full object-contain" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">CodeFit Innovate</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">ProbMaxCare</h1>
           <p className="text-gray-600">Edukasi Kesehatan Mental Mahasiswa</p>
         </div>
 

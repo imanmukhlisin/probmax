@@ -34,7 +34,7 @@ class ChatController extends Controller
         }
 
         // System prompt untuk konteks aplikasi
-        $systemPrompt = "Kamu adalah CodeFit AI, teman curhat dan asisten kesehatan mental khusus untuk mahasiswa keperawatan di aplikasi CodeFit Innovate.
+        $systemPrompt = "Kamu adalah Probmax AI, teman curhat dan asisten kesehatan mental khusus untuk mahasiswa keperawatan di aplikasi ProbmaxCare.
 
 KONTEKS PENGGUNA SAAT INI:
 {$userContext}
