@@ -8,6 +8,7 @@ export default function StudentMonitoring() {
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState('all'); // 'all' or 'YYYY-MM'
 
   useEffect(() => {
     fetchMonitoringData();
@@ -20,6 +21,14 @@ export default function StudentMonitoring() {
     axiosClient.get('/admin/student-monitoring')
       .then(({ data }) => {
         setMonitoringData(data.data);
+        // Auto-select current month if available
+        const currentMonth = new Date().toISOString().slice(0, 7);
+        const monthKeys = Object.keys(data.data);
+        if (monthKeys.includes(currentMonth)) {
+          setSelectedMonth(currentMonth);
+        } else if (monthKeys.length > 0) {
+          setSelectedMonth(monthKeys[0]); // Select first available month
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -98,6 +107,7 @@ export default function StudentMonitoring() {
   }
 
   const monthKeys = Object.keys(monitoringData).sort().reverse();
+  const filteredMonthKeys = selectedMonth === 'all' ? monthKeys : monthKeys.filter(key => key === selectedMonth);
 
   return (
     <div className="space-y-6 animate-fade-in-up">
@@ -128,45 +138,86 @@ export default function StudentMonitoring() {
         </button>
       </div>
 
+      {/* Month Filter */}
+      {monthKeys.length > 0 && (
+        <div className="bg-white rounded-2xl shadow-sm p-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+              <span>📅</span>
+              <span>Filter Bulan:</span>
+            </label>
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="flex-1 sm:flex-none sm:min-w-[250px] px-4 py-2.5 border-2 border-gray-200 rounded-xl font-bold text-gray-700 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+            >
+              <option value="all">📊 Semua Bulan ({monthKeys.length} bulan)</option>
+              {monthKeys.map((monthKey) => (
+                <option key={monthKey} value={monthKey}>
+                  {monitoringData[monthKey].month_label} ({monitoringData[monthKey].records.length} cek)
+                </option>
+              ))}
+            </select>
+            {selectedMonth !== 'all' && (
+              <button
+                onClick={() => setSelectedMonth('all')}
+                className="px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all flex items-center gap-2"
+              >
+                <span>🔄</span>
+                <span>Reset Filter</span>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Stats Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
           <div className="text-3xl mb-2">📅</div>
-          <div className="text-2xl font-black">{monthKeys.length}</div>
-          <div className="text-blue-100 text-sm font-medium">Bulan Tercatat</div>
+          <div className="text-2xl font-black">{filteredMonthKeys.length}</div>
+          <div className="text-blue-100 text-sm font-medium">
+            {selectedMonth === 'all' ? 'Bulan Tercatat' : 'Bulan Dipilih'}
+          </div>
         </div>
         <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg">
           <div className="text-3xl mb-2">✅</div>
           <div className="text-2xl font-black">
-            {Object.values(monitoringData).reduce((sum, month) => sum + month.records.length, 0)}
+            {filteredMonthKeys.reduce((sum, key) => sum + monitoringData[key].records.length, 0)}
           </div>
           <div className="text-green-100 text-sm font-medium">Total Cek Harian</div>
         </div>
         <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
           <div className="text-3xl mb-2">👥</div>
           <div className="text-2xl font-black">
-            {new Set(Object.values(monitoringData).flatMap(month => month.records.map(r => r.user_name))).size}
+            {new Set(filteredMonthKeys.flatMap(key => monitoringData[key].records.map(r => r.user_name))).size}
           </div>
           <div className="text-purple-100 text-sm font-medium">Mahasiswa Aktif</div>
         </div>
         <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg">
           <div className="text-3xl mb-2">📊</div>
           <div className="text-2xl font-black">
-            {monthKeys.length > 0 ? monitoringData[monthKeys[0]].records.length : 0}
+            {filteredMonthKeys.length > 0 ? monitoringData[filteredMonthKeys[0]].records.length : 0}
           </div>
-          <div className="text-orange-100 text-sm font-medium">Cek Bulan Ini</div>
+          <div className="text-orange-100 text-sm font-medium">
+            {selectedMonth === 'all' ? 'Cek Bulan Terbaru' : 'Cek Bulan Ini'}
+          </div>
         </div>
       </div>
 
       {/* Monthly Data */}
-      {monthKeys.length === 0 ? (
+      {filteredMonthKeys.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
           <div className="text-6xl mb-4">📭</div>
           <h3 className="text-xl font-bold text-gray-800 mb-2">Belum Ada Data</h3>
-          <p className="text-gray-600">Belum ada mahasiswa yang melakukan cek harian</p>
+          <p className="text-gray-600">
+            {selectedMonth === 'all' 
+              ? 'Belum ada mahasiswa yang melakukan cek harian'
+              : 'Tidak ada data untuk bulan yang dipilih'}
+          </p>
         </div>
       ) : (
-        monthKeys.map((monthKey) => {
+        filteredMonthKeys.map((monthKey) => {
           const monthData = monitoringData[monthKey];
           
           return (
