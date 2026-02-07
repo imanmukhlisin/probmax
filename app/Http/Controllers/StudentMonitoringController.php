@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DailyFeedback;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class StudentMonitoringController extends Controller
 {
@@ -52,45 +53,59 @@ class StudentMonitoringController extends Controller
      */
     public function exportCsv()
     {
-        // Get all daily feedback with user data
-        $feedbacks = DailyFeedback::with('user:id,username')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        try {
+            // Get all daily feedback with user data
+            $feedbacks = DailyFeedback::with('user:id,username')
+                ->orderBy('created_at', 'desc')
+                ->get();
 
-        $filename = 'Monitoring_Mahasiswa_' . date('Y-m-d_His') . '.csv';
+            $filename = 'Monitoring_Mahasiswa_' . date('Y-m-d_His') . '.csv';
 
-        // Set headers for CSV download
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        header('Cache-Control: max-age=0');
-
-        // Open output stream
-        $output = fopen('php://output', 'w');
-
-        // Add BOM for proper UTF-8 encoding in Excel
-        fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
-
-        // Write CSV headers
-        fputcsv($output, ['No', 'Bulan', 'Nama Mahasiswa', 'Tanggal', 'Skor Total', 'Kategori Stress']);
-
-        // Write data rows
-        $no = 1;
-        foreach ($feedbacks as $feedback) {
-            $monthLabel = $feedback->created_at->locale('id')->isoFormat('MMMM YYYY');
+            // Create CSV content
+            $csvContent = "\xEF\xBB\xBF"; // UTF-8 BOM for Excel
             
-            fputcsv($output, [
-                $no,
-                $monthLabel,
-                $feedback->user->username ?? 'Unknown',
-                $feedback->created_at->format('d/m/Y'),
-                $feedback->total_score,
-                $feedback->stress_level
+            // Add headers
+            $headers = ['No', 'Bulan', 'Nama Mahasiswa', 'Tanggal', 'Skor Total', 'Kategori Stress'];
+            $csvContent .= implode(',', array_map(function($header) {
+                return '"' . str_replace('"', '""', $header) . '"';
+            }, $headers)) . "\n";
+
+            // Add data rows
+            $no = 1;
+            foreach ($feedbacks as $feedback) {
+                $monthLabel = $feedback->created_at->locale('id')->isoFormat('MMMM YYYY');
+                
+                $row = [
+                    $no,
+                    $monthLabel,
+                    $feedback->user->username ?? 'Unknown',
+                    $feedback->created_at->format('d/m/Y'),
+                    $feedback->total_score,
+                    $feedback->stress_level
+                ];
+                
+                $csvContent .= implode(',', array_map(function($field) {
+                    return '"' . str_replace('"', '""', $field) . '"';
+                }, $row)) . "\n";
+                
+                $no++;
+            }
+
+            // Return CSV response
+            return Response::make($csvContent, 200, [
+                'Content-Type' => 'text/csv; charset=UTF-8',
+                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+                'Cache-Control' => 'no-cache, must-revalidate',
+                'Pragma' => 'no-cache',
+                'Expires' => '0'
             ]);
-            
-            $no++;
-        }
 
-        fclose($output);
-        exit;
+        } catch (\Exception $e) {
+            \Log::error('CSV Export Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengekspor data: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
