@@ -155,4 +155,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/consultant/appointments', [\App\Http\Controllers\ConsultantAnalyticsController::class, 'getMyAppointments']);
     Route::put('/consultant/appointments/{id}', [\App\Http\Controllers\ConsultantAnalyticsController::class, 'updateAppointmentStatus']);
     Route::get('/consultant/analytics', [\App\Http\Controllers\ConsultantAnalyticsController::class, 'getAggregateStudentData']);
+
+    // Student Monitoring (Admin Only)
+    Route::get('/admin/student-monitoring', [\App\Http\Controllers\StudentMonitoringController::class, 'index']);
+    Route::get('/admin/student-monitoring/export', [\App\Http\Controllers\StudentMonitoringController::class, 'exportCsv']);
 });

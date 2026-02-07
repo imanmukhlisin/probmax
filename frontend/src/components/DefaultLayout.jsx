@@ -52,6 +52,7 @@ export default function DefaultLayout() {
 
   const navLinks = [
       { name: 'Dashboard', path: '/dashboard', icon: '📊' },
+      { name: 'Monitoring Mahasiswa', path: '/student-monitoring', role: 1, icon: '📈' },
       { name: 'Cek Harian', path: '/daily-check', role: 3, icon: '📝' },
       { name: 'PMC Game', path: '/pmc-game', role: 3, icon: '🎮' },
       { name: 'LiveChat AI', path: '/chat-ai', icon: '🤖' },

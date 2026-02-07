@@ -13,6 +13,7 @@ import UserFeedback from "./views/UserFeedback";
 import ChatAI from "./views/ChatAI";
 import Profile from "./views/Profile";
 import UserManagement from "./views/UserManagement";
+import StudentMonitoring from "./views/StudentMonitoring";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: '/user-management',
         element: <UserManagement />
+      },
+      {
+        path: '/student-monitoring',
+        element: <StudentMonitoring />
       },
     ]
   },
